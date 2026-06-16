@@ -1,0 +1,76 @@
+# Gradle
+.gradle/
+build/
+**/build/
+
+# Local SDK path (machine-specific)
+local.properties
+
+# Android Studio / IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+.idea_modules/
+
+# Eclipse (legacy)
+.classpath
+.project
+.settings/
+
+# Built application files
+*.apk
+*.ap_
+*.aab
+
+# Dalvik / ART
+*.dex
+
+# Java / Kotlin compiled output
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+release/
+
+# Proguard / R8
+proguard/
+*.orig
+
+# Android NDK / native build
+.externalNativeBuild/
+.cxx/
+obj/
+
+# Android Studio captures (screenshots, layout captures)
+captures/
+
+# Signing keys — never commit these
+*.jks
+*.keystore
+*.p12
+*.pem
+key.properties
+signing.properties
+
+# Log files
+*.log
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Windows swap / temp
+*.swp
+*~
+
+# Gradle wrapper validation (optional local cache)
+.gradle-home/
