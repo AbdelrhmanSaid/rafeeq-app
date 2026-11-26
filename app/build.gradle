@@ -28,10 +28,10 @@ def twaManifest = [
     launcherName: 'رفيق', // The name shown on the Android Launcher.
     themeColor: '#795547', // The color used for the status bar.
     themeColorDark: '#795547', // The color used for the dark status bar.
-    navigationColor: '#795547', // The color used for the navigation bar.
-    navigationColorDark: '#795547', // The color used for the dark navbar.
-    navigationDividerColor: '#795547', // The navbar divider color.
-    navigationDividerColorDark: '#795547', // The dark navbar divider color.
+    navigationColor: '#FFFFFF', // The color used for the navigation bar.
+    navigationColorDark: '#000000', // The color used for the dark navbar.
+    navigationDividerColor: '#00000000', // The navbar divider color.
+    navigationDividerColorDark: '#00000000', // The dark navbar divider color.
     backgroundColor: '#FFFFFF', // The color used for the splash screen background.
     enableNotifications: true, // Set to true to enable notification delegation.
     // Every shortcut must include the following fields:
@@ -57,7 +57,7 @@ android {
         applicationId "me.rafeeq.twa"
         minSdkVersion 24
         targetSdkVersion 36
-        versionCode 4
+        versionCode 5
         versionName "1.0.0.0"
 
         // The name for the application
