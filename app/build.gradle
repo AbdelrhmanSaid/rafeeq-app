@@ -57,7 +57,7 @@ android {
         applicationId "me.rafeeq.twa"
         minSdkVersion 23
         targetSdkVersion 36
-        versionCode 3
+        versionCode 4
         versionName "1.0.0.0"
 
         // The name for the application
@@ -150,9 +150,26 @@ android {
 
         
     }
+    def keystore = providers.environmentVariable('ANDROID_KEYSTORE_FILE').orNull
+
+    if (keystore) {
+        signingConfigs {
+            release {
+                storeFile file(keystore)
+                storePassword providers.environmentVariable('ANDROID_KEYSTORE_PASSWORD').get()
+                keyAlias providers.environmentVariable('ANDROID_KEY_ALIAS').get()
+                keyPassword providers.environmentVariable('ANDROID_KEY_PASSWORD').get()
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
+
+            if (keystore) {
+                signingConfig signingConfigs.release
+            }
         }
     }
     compileOptions {

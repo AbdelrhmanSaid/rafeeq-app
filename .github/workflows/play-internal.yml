@@ -1,0 +1,63 @@
+name: Google Play internal testing
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish the signed bundle to Google Play internal testing
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: play-internal
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    environment: play-internal
+
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install Android SDK packages
+        run: sdkmanager 'platforms;android-36' 'build-tools;35.0.0'
+
+      - name: Build and verify signed app bundle
+        shell: bash
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          umask 077
+          export ANDROID_KEYSTORE_FILE="$RUNNER_TEMP/rafeeq-upload.jks"
+          trap 'rm -f "$ANDROID_KEYSTORE_FILE"' EXIT
+          : "${ANDROID_KEYSTORE_BASE64:?Missing upload keystore}"
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$ANDROID_KEYSTORE_FILE"
+          unset ANDROID_KEYSTORE_BASE64
+          bash ./gradlew --no-daemon :app:bundleRelease
+          jarsigner -verify app/build/outputs/bundle/release/app-release.aab | grep -Fx 'jar verified.'
+
+      - name: Publish to Google Play internal testing
+        if: inputs.publish
+        uses: r0adkll/upload-google-play@e738b9dd8f2476ea806d921b64aacd24f34515a5 # v1.1.5
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: me.rafeeq.twa
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          tracks: internal
+          status: completed
