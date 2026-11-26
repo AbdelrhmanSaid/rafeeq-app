@@ -55,7 +55,7 @@ android {
     namespace "me.rafeeq.twa"
     defaultConfig {
         applicationId "me.rafeeq.twa"
-        minSdkVersion 23
+        minSdkVersion 24
         targetSdkVersion 36
         versionCode 4
         versionName "1.0.0.0"
