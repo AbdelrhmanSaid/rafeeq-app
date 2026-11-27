@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.ViewGroup;
+import android.window.SplashScreenView;
 import android.widget.ImageView;
 
 
@@ -49,6 +50,15 @@ public class LauncherActivity
         // library, it isn't shown when the app is already running in this task.
         if (!isFinishing() && isTaskRoot()) {
             showSplashScreen();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                // The system splash centres its icon on the whole screen, so this one is laid out behind the
+                // system bars too. Android 15 and up do that anyway.
+                getWindow().setDecorFitsSystemWindows(false);
+                // Left alone, the system fades its icon out and then reveals this window, so the icon blinks.
+                // Taking the splash over and dropping it at once swaps one for the other in a single frame.
+                getSplashScreen().setOnExitAnimationListener(SplashScreenView::remove);
+            }
         }
     }
 
