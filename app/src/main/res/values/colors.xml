@@ -15,4 +15,8 @@
 -->
 <resources>
     <color name="shortcut_background">#F5F5F5</color>
+
+    <!-- The splash background. It is the colour Android's own splash is asked to use (see styles.xml), so the two
+         splashes read as one. White here and black in values-night, the same as the navigation bar. -->
+    <color name="backgroundColor">#FFFFFF</color>
 </resources>

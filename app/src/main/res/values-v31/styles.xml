@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Stock Android draws no splash of its own for a translucent activity, but some phones do, and with no colour
+         given they draw it black, in light mode too. This is the colour the app's own splash uses, so one follows
+         the other without a change of background. -->
+    <style name="LauncherTheme" parent="@android:style/Theme.Translucent.NoTitleBar">
+        <item name="android:windowSplashScreenBackground">@color/backgroundColor</item>
+    </style>
+</resources>

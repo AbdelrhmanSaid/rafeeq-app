@@ -19,6 +19,8 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
 
 
@@ -40,6 +42,31 @@ public class LauncherActivity
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
+
+        // The library shows its splash only once the browser has answered. Until then this translucent activity
+        // has nothing to draw, so a phone that shows a splash of its own fades it out to an empty screen first.
+        // The same view is put up straight away instead; the library swaps in its identical one later. Like the
+        // library, it isn't shown when the app is already running in this task.
+        if (!isFinishing() && isTaskRoot()) {
+            showSplashScreen();
+        }
+    }
+
+    // Mirrors PwaWrapperSplashScreenStrategy.showSplashScreen(), so nothing moves when the library takes over.
+    private void showSplashScreen() {
+        ImageView view = new ImageView(this);
+        view.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        view.setImageResource(R.drawable.splash);
+        view.setBackgroundColor(getColor(R.color.backgroundColor));
+
+        ImageView.ScaleType scaleType = getSplashImageScaleType();
+        view.setScaleType(scaleType);
+        if (scaleType == ImageView.ScaleType.MATRIX) {
+            view.setImageMatrix(getSplashImageTransformationMatrix());
+        }
+
+        setContentView(view);
     }
 
     @Override

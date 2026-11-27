@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The launcher activity's theme: the application's translucent theme, with a splash colour on Android 12 and
+         up (see values-v31). -->
+    <style name="LauncherTheme" parent="@android:style/Theme.Translucent.NoTitleBar" />
+</resources>
